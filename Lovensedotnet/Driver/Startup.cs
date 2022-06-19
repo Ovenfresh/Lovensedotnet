@@ -29,7 +29,6 @@ namespace Driver
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(new LovenseClient(Configuration["DevToken"], Configuration["DevID"]));
-            services.AddSingleton<CallbackRequest>();
             services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddControllers().AddJsonOptions(options =>
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);

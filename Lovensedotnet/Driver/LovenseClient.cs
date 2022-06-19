@@ -45,7 +45,7 @@ namespace Driver
             command.Token = DevToken;
             command.UserID = Callback.Uid;
 
-            var response = await Client.PostAsJsonAsync(
+            await Client.PostAsJsonAsync(
                 "https://api.lovense.com/api/lan/v2/command",
                 command
                 );
