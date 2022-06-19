@@ -119,6 +119,14 @@ Calls a preset present on the device
  |Strength   |5       |10      |15      |20      |/       |/       |...|
  
  The pattern will be repeated for the Duration, and if the Pattern exceeds the duration, it will simply cut off.
+ ## LovenseClient
+ 
+ This is a singleton class used throughout the application, which has it's devid & token configured in _startup.cs_. This is the class that will send the POST-requests along the Standard API, using the various DTO's. This class will also hold the Callback object. 
+ 
+ ## LovenseController
+ 
+ This is essentialy "your own API". It's what handles the Callback after scanning the QR, and what handles POST requests you can make through your browser to command the toys once everything is set up correctly. These commands don't necessarily need to be done through the API, but because of Swagger/Swashbuckler used in this application, it easily gives us a barebones in-browser UI that you can use to test the various types of commands, requests,... 
+ 
  
  ## Setting the Callback URL
  
