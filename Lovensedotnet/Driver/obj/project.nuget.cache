@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NpNgrKM3TAF3O89dZf9kD+WnfEOWJr1boKlKsH5g252SmLlXletll3vJbrq+c9ddr2Rfyaq2zcAIMEMSDZjwKA==",
+  "dgSpecHash": "gfGmEB/poB1XvIv5Qwrxk2hTuAgYiUrmE6J4LDH7kdu/bGFuL5EocevdGc/Bd+aTd4q6oIuUcrEency7VLpU0Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
+  "projectFilePath": "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\RMi\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\RMi\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",

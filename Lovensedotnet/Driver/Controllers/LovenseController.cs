@@ -87,8 +87,8 @@ namespace Driver.Controllers
             await client.DoCMD(new CommandDTO()
             {
                 Command = "Pattern",
-                Pattern = $"V:1;F:{functions};S:{interval}#",
-                Strength = strength,
+                Structure = $"V:1;F:{functions};S:{interval}#",
+                Pattern = strength,
                 Duration = duration,
                 TargetToyID = toyId
             });

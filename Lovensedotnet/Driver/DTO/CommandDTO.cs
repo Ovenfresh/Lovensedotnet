@@ -16,24 +16,37 @@ namespace Driver.DTO
         [Required]
         [JsonProperty("command")]
         public string Command { get; set; }
-        [JsonProperty("action")]
-        public string Action { get; set; }
-        [JsonProperty("name")]
-        public string PresetName { get; set; }
-        [JsonProperty("rule")]
-        public string Pattern { get; set; }
-        public string Strength { get; set; }
         [Required]
         [JsonProperty("timeSec")]
-        public int Duration { get;set; }
-        [JsonProperty("loopRunningSec")]
-        public int LoopLength { get; set; }
-        [JsonProperty("loopPauseSec")]
-        public int LoopInterval { get; set; }
+        public int Duration { get; set; }
         [JsonProperty("toy")]
         public string TargetToyID { get; set; }
         [Required]
         [JsonProperty("apiVer")]
         public readonly int ApiVersion = 1;
+
+        //Properties used with Command : Function
+
+        [JsonProperty("action")]
+        public string Action { get; set; }
+        [JsonProperty("loopRunningSec")]
+        public int LoopLength { get; set; }
+        [JsonProperty("loopPauseSec")]
+        public int LoopInterval { get; set; }
+
+        //Properties used with Command : Preset
+
+        [JsonProperty("name")]
+        public string PresetName { get; set; }
+
+        //Properties used with Command : Pattern
+
+        [JsonProperty("rule")]
+        public string Structure { get; set; }
+        [JsonProperty("strength")]
+        public string Pattern { get; set; }
+        
+       
+       
     }
 }

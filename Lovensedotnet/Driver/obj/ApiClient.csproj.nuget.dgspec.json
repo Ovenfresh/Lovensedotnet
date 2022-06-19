@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj": {}
+    "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj": {
+    "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
+        "projectUniqueName": "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
         "projectName": "ApiClient",
-        "projectPath": "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
+        "projectPath": "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\ApiClient.csproj",
         "packagesPath": "C:\\Users\\RMi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RMi\\source\\repos\\lovensedotnet\\Lovensedotnet\\Driver\\obj\\",
+        "outputPath": "C:\\Users\\RMi\\Source\\Repos\\Lovensedotnet\\Lovensedotnet\\Driver\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\RMi\\AppData\\Roaming\\NuGet\\NuGet.Config",

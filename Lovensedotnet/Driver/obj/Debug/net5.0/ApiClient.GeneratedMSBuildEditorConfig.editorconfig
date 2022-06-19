@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = ApiClient
-build_property.ProjectDir = C:\Users\RMi\Documents\GitHub\lovensedotnet\Lovensedotnet\Driver\
+build_property.ProjectDir = C:\Users\RMi\Source\Repos\Lovensedotnet\Lovensedotnet\Driver\
