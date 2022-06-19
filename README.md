@@ -109,7 +109,7 @@ Calls a preset present on the device
     -> Ex. "5;10;15;20": after the time set in 'S:y#', the pattern will move on to the next step.
     
  Now to put these together.
- Say, Duration is 4s, Pattern:"V:1;F:v;S:1000#", and strength:"5;10;15;20", the following will happen.
+ Say, Duration is 4s, Pattern:"V:1;F:v;S:1000#", and strength:"5;10;15;20", the following will happen with 'v' being vibration.
  
  |Time       |1s      |2s      |3s      |4s      |5s      |6s      |...|
  |-----------|--------|--------|--------|--------|--------|--------|---|
