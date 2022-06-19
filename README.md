@@ -34,6 +34,8 @@ You will also need to request developer access on the Lovense site itself, so yo
 
 Look for the Extension on the extension manager in Visual Studio (Extensions > Manage Extensions > search for conveyor) and install it.
 
+[_Postman_](https://www.postman.com/) is a useful tool to send API requests & get their responses. Very handy when debugging. This allows you to write up  raw requests yourself, and check their validity without having to go through the solution all the time. I have solved many errors using this handy little program while the feedback you get from within the IDE isn't always as clear as it should be.
+
 The Appsettings.json file needs to be filled in with your developer token & username.
 
 ## Application flow
