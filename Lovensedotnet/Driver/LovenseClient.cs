@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Driver.DTO;
+using Driver.Exceptions;
+using Driver.Models;
+using Newtonsoft.Json;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Driver.DTO;
-using Driver.Exceptions;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using Driver.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Driver
 {
@@ -28,7 +25,7 @@ namespace Driver
         public async Task<string> GetQR()
         {
             var response = await Client.PostAsJsonAsync
-                ("https://api.lovense.com/api/lan/getQrCode", 
+                ("https://api.lovense.com/api/lan/getQrCode",
                 new AuthDTO() { Token = DevToken, UID = DevID });
             if (response.StatusCode == HttpStatusCode.OK)
             {
