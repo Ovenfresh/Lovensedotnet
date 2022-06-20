@@ -20,6 +20,7 @@ namespace Driver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(Configuration);
             services.AddSingleton(new LovenseClient(Configuration["DevToken"], Configuration["DevID"]));
             services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddControllers().AddJsonOptions(options =>

@@ -1,20 +1,22 @@
 ﻿using Driver.DTO;
 using Driver.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Driver.Controllers
 {
-    [Route("Lovensedotnet")]
+    [Route("Lovensedotnet/sapi")]
     [ApiController]
-    public class LovenseController : ControllerBase
+    public class StandardApiController : ControllerBase
     {
         private LovenseClient client;
-        public LovenseController(LovenseClient driver)
+        public StandardApiController(LovenseClient driver, IConfiguration configuration)
         {
             this.client = driver;
+            client.BaseURL = configuration["BaseSAPI"];
         }
 
         #region Callback Handling
@@ -43,7 +45,7 @@ namespace Driver.Controllers
         [SwaggerOperation("Index starts at 0, returns entry from the Toys-dictionary in the Callback.")]
         public async Task<IActionResult> GetToyAtIndex(int index)
         {
-            return base.Ok(client.Callback.Toys.ElementAt(index));
+            return base.Ok(client.GetToyAtIndex(index));
         }
         [HttpPost("Toys/Vibrate")]
         [SwaggerOperation("Intensity scales from 0 - 20 | Duration, Length & Interval are in seconds.")]
@@ -90,6 +92,5 @@ namespace Driver.Controllers
             });
             return base.Ok();
         }
-
     }
 }

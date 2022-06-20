@@ -41,8 +41,5 @@ namespace Driver.DTO
         public string Structure { get; set; }
         [JsonProperty("strength")]
         public string Pattern { get; set; }
-
-
-
     }
 }
