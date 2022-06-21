@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Driver
+namespace Lovensedotnet
 {
     public class Program
     {

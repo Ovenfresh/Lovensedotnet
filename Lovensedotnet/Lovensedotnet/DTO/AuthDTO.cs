@@ -1,4 +1,4 @@
-﻿namespace Driver.DTO
+﻿namespace Lovensedotnet.DTO
 {
     public class AuthDTO
     {

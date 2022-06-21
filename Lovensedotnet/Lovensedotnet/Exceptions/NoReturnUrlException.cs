@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Driver.Exceptions
+namespace Lovensedotnet.Exceptions
 {
     public class NoReturnUrlException : Exception
     {

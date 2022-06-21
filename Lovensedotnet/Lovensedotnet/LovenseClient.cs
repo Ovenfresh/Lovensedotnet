@@ -1,7 +1,7 @@
 ﻿using ApiClient.DTO;
-using Driver.DTO;
-using Driver.Exceptions;
-using Driver.Models;
+using Lovensedotnet.DTO;
+using Lovensedotnet.Exceptions;
+using Lovensedotnet.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Driver
+namespace Lovensedotnet
 {
     public class LovenseClient
     {

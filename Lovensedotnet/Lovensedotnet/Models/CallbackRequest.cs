@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Driver.Models
+namespace Lovensedotnet.Models
 {
     public class CallbackRequest
     {

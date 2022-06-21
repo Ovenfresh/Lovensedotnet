@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClient", "Driver\ApiClient.csproj", "{26F33E4B-E827-45B4-9C0E-672736E07AC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lovensedotnet", "Lovensedotnet\Lovensedotnet.csproj", "{26F33E4B-E827-45B4-9C0E-672736E07AC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

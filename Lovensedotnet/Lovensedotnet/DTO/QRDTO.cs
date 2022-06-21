@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Driver.DTO
+namespace Lovensedotnet.DTO
 {
     public class QRDTO
     {

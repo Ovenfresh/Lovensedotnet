@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace Driver.DTO
+namespace Lovensedotnet.DTO
 {
     public class CommandDTO
     {

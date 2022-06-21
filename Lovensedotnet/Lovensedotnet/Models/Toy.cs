@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace Driver.Models
+namespace Lovensedotnet.Models
 {
     public class Toy
     {
