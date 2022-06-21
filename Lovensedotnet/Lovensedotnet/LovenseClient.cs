@@ -1,5 +1,4 @@
-﻿using ApiClient.DTO;
-using Lovensedotnet.DTO;
+﻿using Lovensedotnet.DTO;
 using Lovensedotnet.Exceptions;
 using Lovensedotnet.Models;
 using Newtonsoft.Json;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Lovensedotnet
@@ -20,16 +20,19 @@ namespace Lovensedotnet
         public string DevToken { get; set; }
         public string DevID { get; set; }
         private CallbackRequest callback;
-        public CallbackRequest Callback 
+
+        // Once the callback is received, the toys are extracted & have an owner assigned to them.
+        public CallbackRequest Callback
         {
-            get { return callback; } 
+            get { return callback; }
             set
             {
                 Toys = value.Toys;
+                foreach (var keyValuePair in Toys) { keyValuePair.Value.Owner = value.Uid; }
                 callback = value;
-            } 
+            }
         }
-        public Dictionary<string, Toy> Toys { get; set; }
+        public Dictionary<string, Toy> Toys { get; set; } = new();
         public LovenseClient(string token, string devId)
         {
             DevToken = token;
@@ -38,7 +41,7 @@ namespace Lovensedotnet
         public async Task<string> GetQR()
         {
             var response = await Client.PostAsJsonAsync
-                ( QRURL,
+                (QRURL,
                 new AuthDTO() { Token = DevToken, UID = DevID });
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -56,7 +59,7 @@ namespace Lovensedotnet
             // Which doesn't need token & uid
             // And Standard API, which does.
 
-            if(callback != null)
+            if (callback != null)
             {
                 command.Token = DevToken;
                 command.UserID = Callback.Uid;
@@ -75,15 +78,74 @@ namespace Lovensedotnet
                 command
                 );
         }
-        public async Task<Toy> GetToyAtIndex(int index)
+        public async Task<Dictionary<string, Toy>> GetToys(LovenseApp app)
         {
-            return Toys.ElementAt(index).Value;
+            HttpResponseMessage response;
+
+            // Lovense Connect & Lovense Remote each deliver differenctly structured JSON, so there must be a differentiation between the two. 
+            // Option "Callback" for when the data was received through callback
+
+            switch (app)
+            {
+                case LovenseApp.Connect:
+                    response = Client.GetAsync($"{BaseURL}/GetToys").Result;
+                    var ctdto = JsonConvert.DeserializeObject<ConnectToysDTO>(await response.Content.ReadAsStringAsync());
+                    foreach (var keyValuePair in ctdto.Toys)
+                    {
+                        if (!Toys.ContainsKey(keyValuePair.Key))
+                        {
+                            Toys.Add(keyValuePair.Key, keyValuePair.Value);
+                        }
+                    }
+                    break;
+                case LovenseApp.Remote:
+                    response = Client.PostAsJsonAsync($"{BaseURL}/command", new CommandDTO() { Command = "GetToys" }).Result;
+                    var rtdto = JsonConvert.DeserializeObject<RemoteToysDTO>(response.Content.ReadAsStringAsync().Result);
+                    foreach (var keyValuePair in rtdto.Data.Toys)
+                    {
+                        if (!Toys.ContainsKey(keyValuePair.Key))
+                        {
+                            Toys.Add(keyValuePair.Key, keyValuePair.Value);
+                        }
+                    }
+                    break;
+                case LovenseApp.Callback:
+                    break;
+            }
+            return Toys;
         }
-        public async Task<Dictionary<string, Toy>> GetToys()
+        public Task<Toy> GetToyAtIndex(int index)
         {
-            var response =  Client.GetAsync($"{BaseURL}/GetToys").Result;
-            var dto = JsonConvert.DeserializeObject< GetToysDTO>(await response.Content.ReadAsStringAsync());
-            return Toys = dto.Toys;
+            return Task.FromResult(Toys.ElementAt(index).Value);
+        }
+        public async Task Ping(Toy toy)
+        {
+            await Client.PostAsJsonAsync(BaseURL + "/command",
+                 new CommandDTO()
+                 {
+                     Token = DevToken,
+                     UserID = toy.Owner,
+                     Command = "Function",
+                     Action = "Vibrate:5",
+                     Duration = 1,
+                 });
+        }
+
+        public async Task ContinuousPing(Toy toy, int interval, CancellationToken t)
+        {
+            while (!t.IsCancellationRequested)
+            {
+                await Client.PostAsJsonAsync(BaseURL + "/command",
+                 new CommandDTO()
+                 {
+                     Token = DevToken,
+                     UserID = toy.Owner,
+                     Command = "Function",
+                     Action = "Vibrate:5",
+                     Duration = 1,
+                 });
+                await Task.Delay(interval * 1000, t);
+            }
         }
     }
 }

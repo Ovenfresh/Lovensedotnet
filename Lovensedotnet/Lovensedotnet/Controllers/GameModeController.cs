@@ -1,16 +1,11 @@
-﻿using Lovensedotnet;
-using Lovensedotnet.DTO;
-using Microsoft.AspNetCore.Http;
+﻿using Lovensedotnet.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiClient.Controllers
+namespace Lovensedotnet.Controllers
 {
     [Route("Lovensedotnet/gm")]
     [ApiController]
@@ -20,12 +15,12 @@ namespace ApiClient.Controllers
         public GameModeController(LovenseClient client, IConfiguration configuration)
         {
             this.client = client;
-            client.BaseURL = configuration["BaseGM"];
+            client.BaseURL = configuration["BaseGM"] + configuration["GMPort"];
         }
         [HttpGet("GetToys")]
-        public async Task<IActionResult> GetToys()
+        public async Task<IActionResult> GetToys(string app)
         {
-            return base.Ok(client.GetToys());
+            return base.Ok(client.GetToys(Enum.Parse<LovenseApp>(app, true)));
         }
         [HttpGet("Toys/{index}")]
         [SwaggerOperation("Index starts at 0, returns entry from the Toys-dictionary in the Callback.")]
