@@ -1,10 +1,16 @@
-﻿namespace Lovensedotnet.DTO
+﻿using Newtonsoft.Json;
+
+namespace Lovensedotnet.DTO
 {
     public class AuthDTO
     {
-        public string UID { get; set; }
-        public string Token { get; set; }
+        [JsonProperty("uid")]
+        public string UserID { get; set; }
+        [JsonProperty("token")]
+        public string DevToken { get; set; }
         public string User { get; set; }
         public string UserAuth { get; set; }
+        [JsonProperty("v")]
+        public int Version { get; set; } = 1;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lovensedotnet.DTO
 {
-    public class DataDTO
+    public class RemoteDataDTO
     {
         [JsonProperty("Toys")]
         public string ParseIntoToys

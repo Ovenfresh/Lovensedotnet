@@ -12,21 +12,18 @@ namespace Lovensedotnet.Controllers
     public class GameModeController : ControllerBase
     {
         private readonly LovenseClient client;
+        private IConfiguration configuration;
+
         public GameModeController(LovenseClient client, IConfiguration configuration)
         {
             this.client = client;
-            client.BaseURL = configuration["BaseGM"] + configuration["GMPort"];
-        }
-        [HttpGet("GetToys")]
-        public async Task<IActionResult> GetToys(string app)
-        {
-            return base.Ok(client.GetToys(Enum.Parse<LovenseApp>(app, true)));
+            this.configuration = configuration;
         }
         [HttpGet("Toys/{index}")]
         [SwaggerOperation("Index starts at 0, returns entry from the Toys-dictionary in the Callback.")]
         public async Task<IActionResult> GetToyAtIndex(int index)
         {
-            return base.Ok(client.GetToyAtIndex(index));
+            return base.Ok(await client.GetToyAtIndex(index));
         }
         [HttpPost("Toys/Vibrate")]
         [SwaggerOperation("Intensity scales from 0 - 20 | Duration, Length & Interval are in seconds.")]

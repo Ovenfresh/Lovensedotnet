@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Lovensedotnet.DTO
 {
@@ -8,5 +9,6 @@ namespace Lovensedotnet.DTO
         public int Code { get; set; }
         [JsonProperty("message")]
         public string URL { get; set; }
+        public Dictionary<string, string> Data{ get; set; }
     }
 }

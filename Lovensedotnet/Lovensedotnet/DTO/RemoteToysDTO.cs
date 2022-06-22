@@ -6,7 +6,7 @@ namespace Lovensedotnet.DTO
     {
         public string Code { get; set; }
         [JsonProperty("data")]
-        public DataDTO Data { get; set; }
+        public RemoteDataDTO Data { get; set; }
         public string Type { get; set; }
     }
 }

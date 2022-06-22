@@ -2,8 +2,8 @@
 {
     public enum LovenseApp
     {
-        Connect,
-        Remote,
-        Callback
+        Connect = -1,
+        Callback = 0,
+        Remote = 1
     }
 }

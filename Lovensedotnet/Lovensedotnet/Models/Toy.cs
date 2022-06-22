@@ -10,7 +10,7 @@ namespace Lovensedotnet.Models
         [JsonProperty("name")]
         public string Model { get; set; }
         public string? Version { get; set; }
-        public string? Owner { get; set; } = string.Empty;
+        public User? Owner { get; set; }
         public int Status { get; set; }
         public int? Battery { get; set; }
         [JsonProperty("fVersion")]

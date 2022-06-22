@@ -3,6 +3,7 @@ using Lovensedotnet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Threading.Tasks;
 
 namespace Lovensedotnet.Controllers
@@ -12,34 +13,13 @@ namespace Lovensedotnet.Controllers
     public class StandardApiController : ControllerBase
     {
         private LovenseClient client;
+        private IConfiguration configuration;
         public StandardApiController(LovenseClient driver, IConfiguration configuration)
         {
             this.client = driver;
-            client.BaseURL = configuration["BaseSAPI"];
+            this.configuration = configuration;
         }
 
-        #region Callback Handling
-
-        [HttpPost("Callback")]
-        [SwaggerOperation("This POST operation exists solely to receive the callback from the lovense servers after the QR has been scanned.")]
-        public async Task<IActionResult> CatchResponse([FromBody] CallbackRequest response)
-        {
-            client.Callback = response;
-            return base.Ok();
-        }
-        [HttpGet("Callback")]
-        public async Task<IActionResult> GetCallback()
-        {
-            return base.Ok(client.Callback);
-        }
-        #endregion
-
-        [HttpGet("QR")]
-        public async Task<IActionResult> GetQR()
-        {
-            string qr = await client.GetQR();
-            return base.Ok(qr);
-        }
         [HttpGet("Toys/{index}")]
         [SwaggerOperation("Index starts at 0, returns entry from the Toys-dictionary in the Callback.")]
         public async Task<IActionResult> GetToyAtIndex(int index)
