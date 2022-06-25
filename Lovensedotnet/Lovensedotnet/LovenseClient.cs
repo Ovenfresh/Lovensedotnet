@@ -1,10 +1,8 @@
 ﻿using Lovensedotnet.DTO;
-using Lovensedotnet.Exceptions;
 using Lovensedotnet.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -29,7 +27,7 @@ namespace Lovensedotnet
         {
             var response = await Client.PostAsJsonAsync
                 (QRURL,
-                new AuthDTO() { DevToken = DevToken, UserID = user});
+                new AuthDTO() { DevToken = DevToken, UserID = user });
 
             return JsonConvert.DeserializeObject<QRDTO>(await response.Content.ReadAsStringAsync());
 

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Lovensedotnet.Models
 {
@@ -8,7 +7,7 @@ namespace Lovensedotnet.Models
         public string Name { get; set; }
         public Dictionary<string, Toy> Toys { get; set; }
         public LovenseApp Mode { get; set; }
-        public string RequestURL 
+        public string RequestURL
         {
             get
             {

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Threading.Tasks;
 
 namespace Lovensedotnet.Controllers
