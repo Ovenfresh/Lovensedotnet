@@ -1,22 +1,26 @@
-﻿using Newtonsoft.Json;
+﻿using LovenseData;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
-namespace Lovensedotnet.DTO
+namespace LovenseService.DTO
 {
+    [JsonObject]
     public class CommandDTO
     {
         [JsonProperty("token")]
         public string Token { get; set; }
         [JsonProperty("uid")]
-        public string UserID { get; set; }
+        public string Username { get; set; }
         [Required]
         [JsonProperty("command")]
-        public string Command { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public LovenseCommand Command { get; set; }
         [Required]
         [JsonProperty("timeSec")]
-        public int Duration { get; set; }
+        public double Duration { get; set; }
         [JsonProperty("toy")]
-        public string TargetToyID { get; set; }
+        public string? TargetToyID { get; set; }
         [Required]
         [JsonProperty("apiVer")]
         public readonly int ApiVersion = 1;

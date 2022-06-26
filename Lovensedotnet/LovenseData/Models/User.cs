@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Lovensedotnet.Models
+namespace LovenseData.Models
 {
     public class User
     {
         public string Name { get; set; }
-        public Dictionary<string, Toy> Toys { get; set; }
+        public List<Toy> Toys { get; set; }
         public LovenseApp Mode { get; set; }
         public string RequestURL
         {
@@ -21,7 +21,7 @@ namespace Lovensedotnet.Models
                 }
             }
         }
-        public string RequestSAPI { get; set; }
+        public static string RequestSAPI { get; set; }
         public string RequestLAN { get; set; }
     }
 }

@@ -1,3 +1,7 @@
+using LovenseData.Interfaces;
+using LovenseData.Models;
+using LovenseData.Repositories;
+using LovenseService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
-namespace Lovensedotnet
+namespace LovenseApiUI
 {
     public class Startup
     {
@@ -21,10 +25,17 @@ namespace Lovensedotnet
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            services.AddSingleton(new LovenseClient(Configuration["DevToken"], Configuration["DevID"]));
+
+            services.AddSingleton<IUserRepository, UserRepositoryNoDB>();
+            services.AddSingleton<IToyRepository, ToyRepositoryNoDB>();
+
+            User.RequestSAPI = Configuration["BaseSAPI"];
+            services.AddSingleton<LovenseClient>();
+
             services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddControllers().AddJsonOptions(options =>
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Driver", Version = "v1" });

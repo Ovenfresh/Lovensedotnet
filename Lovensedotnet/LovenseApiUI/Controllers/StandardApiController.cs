@@ -1,10 +1,12 @@
-﻿using Lovensedotnet.DTO;
+﻿using LovenseData;
+using LovenseService;
+using LovenseService.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
-namespace Lovensedotnet.Controllers
+namespace LovenseApiUI.Controllers
 {
     [Route("Lovensedotnet/sapi")]
     [ApiController]
@@ -22,7 +24,7 @@ namespace Lovensedotnet.Controllers
         [SwaggerOperation("Index starts at 0, returns entry from the Toys-dictionary in the Callback.")]
         public async Task<IActionResult> GetToyAtIndex(int index)
         {
-            return base.Ok(client.GetToyAtIndex(index));
+            return base.Ok(await client.GetToyAtIndex(index));
         }
         [HttpPost("Toys/Vibrate")]
         [SwaggerOperation("Intensity scales from 0 - 20 | Duration, Length & Interval are in seconds.")]
@@ -31,7 +33,7 @@ namespace Lovensedotnet.Controllers
         {
             await client.DoCMD(new CommandDTO()
             {
-                Command = "Function",
+                Command = LovenseCommand.Function,
                 Action = $"Vibrate:{intensity}",
                 Duration = duration,
                 LoopLength = loopLength,
@@ -46,7 +48,7 @@ namespace Lovensedotnet.Controllers
         {
             await client.DoCMD(new CommandDTO()
             {
-                Command = "Preset",
+                Command = LovenseCommand.Preset,
                 PresetName = presetName,
                 Duration = duration,
                 TargetToyID = toyId
@@ -57,13 +59,13 @@ namespace Lovensedotnet.Controllers
         [HttpPost("Toys/Pattern")]
         [SwaggerOperation("Strength scales from 0 - 20 and is seperated by ';' | Duration(s) | Interval (ms) determines how quickly the loop cycles " +
             "through the strengths for the length of the duration")]
-        public async Task<IActionResult> PlayPattern(string functions, string strength, string interval, int duration = 10, string toyId = "")
+        public async Task<IActionResult> PlayPattern(string functions, string pattern, string interval, int duration = 10, string toyId = "")
         {
             await client.DoCMD(new CommandDTO()
             {
-                Command = "Pattern",
+                Command = LovenseCommand.Pattern,
                 Structure = $"V:1;F:{functions};S:{interval}#",
-                Pattern = strength,
+                Pattern = pattern,
                 Duration = duration,
                 TargetToyID = toyId
             });

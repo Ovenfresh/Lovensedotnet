@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Lovensedotnet
+namespace LovenseApiUI
 {
     public static class Global
     {

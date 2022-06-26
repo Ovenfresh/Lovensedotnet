@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Lovensedotnet.DTO
+namespace LovenseService.DTO
 {
     public class QRDTO
     {

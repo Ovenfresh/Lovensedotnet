@@ -1,4 +1,6 @@
-﻿using Lovensedotnet.Models;
+﻿using LovenseData;
+using LovenseData.Models;
+using LovenseService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.Annotations;
@@ -7,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lovensedotnet.Controllers
+namespace LovenseApiUI.Controllers
 {
     [Route("Lovensedotnet/utl")]
     [ApiController]
@@ -20,11 +22,10 @@ namespace Lovensedotnet.Controllers
             this.client = client;
             this.configuration = configuration;
         }
-        [HttpPost("SetDevCredentials")]
-        public async Task<IActionResult> SetDevCredentials(string DevID, string DevToken)
+        [HttpPost("SetToken")]
+        public async Task<IActionResult> SetToken(string DevToken)
         {
-            client.DevToken = DevToken;
-            client.DevID = DevID;
+            client.Token = DevToken;
             return base.Ok();
         }
 
@@ -37,42 +38,13 @@ namespace Lovensedotnet.Controllers
             {
                 Mode = LovenseApp.Callback,
                 Name = response.Uid,
-                Toys = response.Toys,
-                RequestSAPI = configuration["BaseSAPI"],
+                Toys = response.Toys.Values.ToList(),
                 RequestLAN = $"https://{response.Domain}:{response.HttpsPort}"
             };
-
-            if (!client.Users.ContainsKey(response.Uid))
-            {
-                client.Users.Add(response.Uid, user);
-                foreach (var pair in user.Toys)
-                {
-                    pair.Value.Owner = user;
-                    client.Toys.Add(pair.Key, pair.Value);
-                }
-                return base.Ok($"Added user {response.Uid}");
-            }
-            else
-            {
-                if (user.Mode == LovenseApp.Callback)
-                {
-                    client.Users[response.Uid] = user;
-                    foreach (var pair in user.Toys)
-                    {
-                        pair.Value.Owner = user;
-                        client.Toys[pair.Key] = pair.Value;
-                    }
-                    return base.Ok($"Updated user {response.Uid}");
-                }
-                return base.Ok();
-            }
+            client.AddUser(user);
+            return base.Ok($"Added user {response.Uid}");
         }
 
-        [HttpGet("QR/v1/{username}")]
-        public async Task<IActionResult> GetQRv1(string username)
-        {
-            return base.Ok(await client.GetQRv1(username));
-        }
         [HttpGet("QR/v2/{username}")]
         public async Task<IActionResult> GetQRv2(string username)
         {
@@ -85,14 +57,13 @@ namespace Lovensedotnet.Controllers
         {
             User user = new()
             {
-                Name = (alias == null) ? $"Device {client.Users.Count + 1}" : alias,
+                Name = alias ?? $"Device {client.UserCount + 1}",
                 Mode = Enum.Parse<LovenseApp>(app, true),
                 RequestLAN = $"https://{ip.Replace(".", "-")}.{configuration["BaseGM"]}:{port}"
             };
             Debug.WriteLine(user.RequestURL);
             user.Toys = await client.GetToys(user);
-            client.Users.Add(user.Name, user);
-
+            client.AddUser(user);
             return base.Ok(user);
         }
         [HttpPost("Users/{userId}/{mode}")]
@@ -100,7 +71,7 @@ namespace Lovensedotnet.Controllers
         {
             try
             {
-                client.Users[userId].Mode = mode;
+                client.SetUserMode(userId, mode);
                 return base.Ok($"Set mode for {userId} to {mode} ");
             }
             catch
@@ -111,17 +82,7 @@ namespace Lovensedotnet.Controllers
         [HttpGet("Users/Prune")]
         public async Task<IActionResult> PruneUsers()
         {
-            foreach (var UserDefiniton in client.Users)
-            {
-                try
-                {
-                    await client.Ping(UserDefiniton.Value.Toys.ElementAt(0).Value);
-                }
-                catch
-                {
-                    client.Users.Remove(UserDefiniton.Key);
-                }
-            }
+            await client.Prune();
             return base.Ok();
         }
         [HttpGet("GetToys")]
@@ -132,10 +93,10 @@ namespace Lovensedotnet.Controllers
         [HttpGet("GetToys/{userId}")]
         public async Task<IActionResult> GetToysByUser(string userId)
         {
-            if (client.Users.ContainsKey(userId))
+            var toys = client.GetToysByUserId(userId);
+            if (toys is not null)
             {
-                var user = client.Users[userId];
-                return base.Ok(user.Toys);
+                return base.Ok(toys);
             }
             else
             {

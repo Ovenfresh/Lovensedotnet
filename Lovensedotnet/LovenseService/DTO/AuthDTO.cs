@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lovensedotnet.DTO
+namespace LovenseService.DTO
 {
     public class AuthDTO
     {
@@ -8,9 +8,11 @@ namespace Lovensedotnet.DTO
         public string UserID { get; set; }
         [JsonProperty("token")]
         public string DevToken { get; set; }
-        public string User { get; set; }
-        public string UserAuth { get; set; }
+        [JsonProperty("uname")]
+        public string UserName { get; set; }
+        [JsonProperty("uToken")]
+        public string UserToken { get; set; }
         [JsonProperty("v")]
-        public int Version { get; set; } = 1;
+        public int ApiVer { get; set; } = 1;
     }
 }

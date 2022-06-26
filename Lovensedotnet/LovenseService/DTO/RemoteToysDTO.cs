@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lovensedotnet.DTO
+namespace LovenseService.DTO
 {
     public class RemoteToysDTO
     {
