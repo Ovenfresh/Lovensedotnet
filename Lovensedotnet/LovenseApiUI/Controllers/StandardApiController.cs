@@ -14,9 +14,9 @@ namespace LovenseApiUI.Controllers
     {
         private LovenseClient client;
         private IConfiguration configuration;
-        public StandardApiController(LovenseClient driver, IConfiguration configuration)
+        public StandardApiController(LovenseClient client, IConfiguration configuration)
         {
-            this.client = driver;
+            this.client = client;
             this.configuration = configuration;
         }
 
