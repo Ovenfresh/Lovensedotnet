@@ -1,4 +1,4 @@
-﻿using LovenseData.Models;
+﻿using Data.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

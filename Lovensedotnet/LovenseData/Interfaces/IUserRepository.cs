@@ -1,13 +1,13 @@
-﻿using LovenseData.Models;
+﻿using Data.Models;
 
-namespace LovenseData.Interfaces
+namespace Data.Interfaces
 {
     public interface IUserRepository
     {
-        public User GetUserByID(string id);
+        public Owner GetUserByID(string id);
         public bool CheckForUser(string id);
-        public void Add(User user);
-        public void Update(User user);
+        public void Add(Owner user);
+        public void Update(Owner user);
         public string ToString();
     }
 }

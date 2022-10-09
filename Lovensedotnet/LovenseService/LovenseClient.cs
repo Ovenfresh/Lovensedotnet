@@ -1,6 +1,7 @@
-﻿using LovenseData;
-using LovenseData.Interfaces;
-using LovenseData.Models;
+﻿using Data;
+using Data.DTO;
+using Data.Interfaces;
+using Data.Models;
 using LovenseService.DTO;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +33,8 @@ namespace LovenseService
             Configuration = configuration;
             Token = Configuration["DevToken"];
         }
-        private async Task<string> Push<T>(T dto, string url)
+
+        private async Task<string> PostRequestTo<T>(T dto, string url)
         {
             string json = JsonConvert.SerializeObject(dto);
             HttpContent content = new StringContent(json , Encoding.UTF8, "application/json");
@@ -43,18 +44,18 @@ namespace LovenseService
             return response;
         }
 
-        public async Task<QRDTO> GetQRv2(string user)
+        public async Task<FetchQRDTO> GetQRv2(string user)
         {
-            var dto = new AuthDTO()
+            var dto = new AuthenticationDTO()
             {
                 DevToken = Token,
                 UserID = user,
                 ApiVer = 2
             };
-            return JsonConvert.DeserializeObject<QRDTO>(await Push(dto, QRURL));
+            return JsonConvert.DeserializeObject<FetchQRDTO>(await PostRequestTo(dto, QRURL));
         }
 
-        public void AddUser(User user)
+        public void AddUser(Owner user)
         {
             if (!Users.CheckForUser(user.Name))
             {
@@ -71,10 +72,9 @@ namespace LovenseService
             };
         }
 
-        public async Task DoCMD(CommandDTO command)
+        public async Task PostCommand(CommandDTO command)
         {
             command.Token = Token;
-
 
             if (command.TargetToyID != "" && int.TryParse(command.TargetToyID, out int index))
             {
@@ -82,20 +82,20 @@ namespace LovenseService
                 var user = Users.GetUserByID(
                     Toys.GetToyByID(command.TargetToyID).Owner);
                 command.Username = user.Name;
-                await Push(command,
-                user.RequestURL + "/command"
+                await PostRequestTo(command,
+                user.ApiRequestURL + "/command"
                 );
             }
             else
             {
                 command.Username = Users.ToString();
-                await Push(command,
-                User.RequestSAPI + "/command"
+                await PostRequestTo(command,
+                Owner.StandardApiURL + "/command"
                 );
             }
         }
 
-        public async Task<List<Toy>> GetToys(User? user = null)
+        public async Task<List<Toy>> GetToys(Owner? user = null)
         {
             HttpResponseMessage response;
 
@@ -107,7 +107,7 @@ namespace LovenseService
                 switch (user.Mode)
                 {
                     case LovenseApp.Connect:
-                        response = Client.GetAsync($"{user.RequestURL}/GetToys").Result;
+                        response = Client.GetAsync($"{user.ApiRequestURL}/GetToys").Result;
                         var ctdto = JsonConvert.DeserializeObject<ConnectToysDTO>(await response.Content.ReadAsStringAsync());
                         foreach (var keyValuePair in ctdto.Toys)
                         {
@@ -116,9 +116,9 @@ namespace LovenseService
                         }
                         return ctdto.Toys.Values.ToList();
                     case LovenseApp.Remote:
-                        var rtdto = JsonConvert.DeserializeObject<RemoteToysDTO>(await Push
+                        var rtdto = JsonConvert.DeserializeObject<RemoteToysDTO>(await PostRequestTo
                             (new CommandDTO() { Command = LovenseCommand.GetToys },
-                                $"{user.RequestURL}/command"));
+                                $"{user.ApiRequestURL}/command"));
                         foreach (var keyValuePair in rtdto.Data.Toys)
                         {
                             Toys.Add(keyValuePair.Value);
@@ -159,7 +159,7 @@ namespace LovenseService
 
         public void SetUserMode(string userId, LovenseApp mode)
         {
-            User user = Users.GetUserByID(userId);
+            Owner user = Users.GetUserByID(userId);
             user.Mode = mode;
             Users.Update(user);
         }
@@ -177,9 +177,9 @@ namespace LovenseService
                 TargetToyID = toy.ID,
                 Command = LovenseCommand.Function,
                 Action = "Vibrate:5",
-                Duration = 0.5,
+                Duration = 1,
             };
-            await Push(dto, Users.GetUserByID(toy.Owner).RequestURL + "/command");
+            await PostRequestTo(dto, Users.GetUserByID(toy.Owner).ApiRequestURL + "/command");
             
         }
 
@@ -187,7 +187,7 @@ namespace LovenseService
         {
             while (!t.IsCancellationRequested)
             {
-                await Push(
+                await PostRequestTo(
                  new CommandDTO()
                  {
                      Token = Token,
@@ -196,7 +196,7 @@ namespace LovenseService
                      Action = "Vibrate:5",
                      Duration = 1,
                  },
-                 Users.GetUserByID(toy.Owner).RequestURL + "/command");
+                 Users.GetUserByID(toy.Owner).ApiRequestURL + "/command");
                 await Task.Delay(interval * 1000, t);
             }
         }

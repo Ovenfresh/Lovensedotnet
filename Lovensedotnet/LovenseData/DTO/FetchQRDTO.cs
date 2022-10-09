@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace LovenseService.DTO
+namespace Data.DTO
 {
-    public class QRDTO
+    public class FetchQRDTO
     {
         public bool Result { get; set; }
         public int Code { get; set; }

@@ -1,4 +1,5 @@
-﻿using LovenseData;
+﻿using Data;
+using Data.DTO;
 using LovenseService;
 using LovenseService.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace LovenseApiUI.Controllers
         public async Task<IActionResult> Vibrate
             (int intensity = 8, int duration = 10, int loopLength = 0, int loopInterval = 0, string toyId = "")
         {
-            await client.DoCMD(new CommandDTO()
+            await client.PostCommand(new CommandDTO()
             {
                 Command = LovenseCommand.Function,
                 Action = $"Vibrate:{intensity}",
@@ -46,7 +47,7 @@ namespace LovenseApiUI.Controllers
         [SwaggerOperation("Plays predefined preset based on the name, duration in seconds.")]
         public async Task<IActionResult> PlayPreset(string presetName, int duration = 10, string toyId = "")
         {
-            await client.DoCMD(new CommandDTO()
+            await client.PostCommand(new CommandDTO()
             {
                 Command = LovenseCommand.Preset,
                 PresetName = presetName,
@@ -61,11 +62,11 @@ namespace LovenseApiUI.Controllers
             "through the strengths for the length of the duration")]
         public async Task<IActionResult> PlayPattern(string functions, string pattern, string interval, int duration = 10, string toyId = "")
         {
-            await client.DoCMD(new CommandDTO()
+            await client.PostCommand(new CommandDTO()
             {
                 Command = LovenseCommand.Pattern,
                 Structure = $"V:1;F:{functions};S:{interval}#",
-                Pattern = pattern,
+                Sequence = pattern,
                 Duration = duration,
                 TargetToyID = toyId
             });

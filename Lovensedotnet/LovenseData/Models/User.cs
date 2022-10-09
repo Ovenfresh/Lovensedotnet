@@ -1,27 +1,27 @@
 ﻿using System.Collections.Generic;
 
-namespace LovenseData.Models
+namespace Data.Models
 {
-    public class User
+    public class Owner
     {
         public string Name { get; set; }
         public List<Toy> Toys { get; set; }
         public LovenseApp Mode { get; set; }
-        public string RequestURL
+        public string ApiRequestURL
         {
             get
             {
                 if (Mode == LovenseApp.Callback)
                 {
-                    return RequestSAPI;
+                    return StandardApiURL;
                 }
                 else
                 {
-                    return RequestLAN;
+                    return LanApiURL;
                 }
             }
         }
-        public static string RequestSAPI { get; set; }
-        public string RequestLAN { get; set; }
+        public static string StandardApiURL { get; set; }
+        public string LanApiURL { get; set; }
     }
 }

@@ -1,10 +1,10 @@
-﻿using LovenseData.Models;
+﻿using Data.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace LovenseApiUI
+namespace Data.DTO
 {
-    public class CallbackRequest
+    public class LovenseCallbackDTO
     {
 
         [JsonProperty("uid")]

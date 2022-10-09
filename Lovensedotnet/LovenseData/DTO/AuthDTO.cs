@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace LovenseService.DTO
+namespace Data.DTO
 {
-    public class AuthDTO
+    public class AuthenticationDTO
     {
         [JsonProperty("uid")]
         public string UserID { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace LovenseData.Models
+namespace Data.Models
 {
     public class Toy
     {
@@ -16,5 +16,9 @@ namespace LovenseData.Models
         [JsonProperty("fVersion")]
         public string? FirmwareVersion { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Model} {Alias} from {Owner} with id {ID}, battery at {Battery}";
+        }
     }
 }

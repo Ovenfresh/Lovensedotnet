@@ -1,7 +1,7 @@
-﻿using LovenseData.Models;
+﻿using Data.Models;
 using System.Collections.Generic;
 
-namespace LovenseData.Interfaces
+namespace Data.Interfaces
 {
     public interface IToyRepository
     {

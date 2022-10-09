@@ -1,6 +1,6 @@
-using LovenseData.Interfaces;
-using LovenseData.Models;
-using LovenseData.Repositories;
+using Data.Interfaces;
+using Data.Models;
+using Data.Repositories;
 using LovenseService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +29,7 @@ namespace LovenseApiUI
             services.AddSingleton<IUserRepository, UserRepositoryNoDB>();
             services.AddSingleton<IToyRepository, ToyRepositoryNoDB>();
 
-            User.RequestSAPI = Configuration["BaseSAPI"];
+            Owner.StandardApiURL = Configuration["BaseSAPI"];
             services.AddSingleton<LovenseClient>();
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();

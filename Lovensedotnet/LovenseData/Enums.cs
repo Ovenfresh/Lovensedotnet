@@ -1,4 +1,4 @@
-﻿namespace LovenseData
+﻿namespace Data
 {
     public enum LovenseApp
     {
@@ -12,5 +12,11 @@
         GetToys,
         Pattern,
         Preset
+    }
+    public enum LovenseAction
+    {
+        Vibrate,
+        Rotate,
+        Pump
     }
 }

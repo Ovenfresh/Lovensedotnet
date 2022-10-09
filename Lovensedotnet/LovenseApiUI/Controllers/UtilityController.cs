@@ -1,5 +1,6 @@
-﻿using LovenseData;
-using LovenseData.Models;
+﻿using Data;
+using Data.DTO;
+using Data.Models;
 using LovenseService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -32,51 +33,55 @@ namespace LovenseApiUI.Controllers
         #region Callback Handling & QR generation
         [HttpPost("Callback")]
         [SwaggerOperation("This POST operation exists solely to receive the callback from the lovense servers after the QR has been scanned.")]
-        public async Task<IActionResult> CatchResponse([FromBody] CallbackRequest response)
+        public async Task<IActionResult> CatchResponse([FromBody] LovenseCallbackDTO response)
         {
-            User user = new()
+            foreach(var toy in response.Toys)
+            {
+                Debug.WriteLine(toy.Value.ToString());
+            };
+            Owner user = new()
             {
                 Mode = LovenseApp.Callback,
                 Name = response.Uid,
                 Toys = response.Toys.Values.ToList(),
-                RequestLAN = $"https://{response.Domain}:{response.HttpsPort}"
+                LanApiURL = $"https://{response.Domain}:{response.HttpsPort}"
             };
             client.AddUser(user);
             return base.Ok($"Added user {response.Uid}");
         }
 
-        [HttpGet("QR/v2/{username}")]
-        public async Task<IActionResult> GetQRv2(string username)
+        [HttpGet("QR/v2/{toyOwner}")]
+        public async Task<IActionResult> GetQRv2(string toyOwner)
         {
-            return base.Ok(await client.GetQRv2(username));
+            return base.Ok(await client.GetQRv2(toyOwner));
         }
         #endregion
 
         [HttpPost("Users/Add")]
         public async Task<IActionResult> AddUser(string app, string? alias, string ip = "192.168.0.206", int port = 30013)
         {
-            User user = new()
+            Owner user = new()
             {
                 Name = alias ?? $"Device {client.UserCount + 1}",
                 Mode = Enum.Parse<LovenseApp>(app, true),
-                RequestLAN = $"https://{ip.Replace(".", "-")}.{configuration["BaseGM"]}:{port}"
+                LanApiURL = $"https://{ip.Replace(".", "-")}.{configuration["BaseGM"]}:{port}"
             };
-            Debug.WriteLine(user.RequestURL);
+            Debug.WriteLine(user.ApiRequestURL);
             user.Toys = await client.GetToys(user);
             client.AddUser(user);
             return base.Ok(user);
         }
         [HttpPost("Users/{userId}/{mode}")]
-        public async Task<IActionResult> SetUserMode(string userId, LovenseApp mode)
+        public async Task<IActionResult> SetUserMode(string toyOwnerID, LovenseApp mode)
         {
             try
             {
-                client.SetUserMode(userId, mode);
-                return base.Ok($"Set mode for {userId} to {mode} ");
+                client.SetUserMode(toyOwnerID, mode);
+                return base.Ok($"Set mode for {toyOwnerID} to {mode} ");
             }
             catch
             {
-                return base.Problem($"Userid {userId} not found in the dictionary.");
+                return base.Problem($"Owner {toyOwnerID} not found in the dictionary.");
             }
         }
         [HttpGet("Users/Prune")]

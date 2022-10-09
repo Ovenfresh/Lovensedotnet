@@ -1,15 +1,15 @@
-﻿using LovenseData.Interfaces;
-using LovenseData.Models;
+﻿using Data.Interfaces;
+using Data.Models;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LovenseData.Repositories
+namespace Data.Repositories
 {
     public class UserRepositoryNoDB : IUserRepository
     {
-        private Dictionary<string, User> Users { get; set; } = new();
+        private Dictionary<string, Owner> Users { get; set; } = new();
 
-        public void Add(User user)
+        public void Add(Owner user)
         {
             if (!Users.ContainsKey(user.Name)) { Users.Add(user.Name, user); }
         }
@@ -20,13 +20,13 @@ namespace LovenseData.Repositories
             else { return false; }
         }
 
-        public User GetUserByID(string id)
+        public Owner GetUserByID(string id)
         {
-            Users.TryGetValue(id, out User user);
+            Users.TryGetValue(id, out Owner user);
             return user;
         }
 
-        public void Update(User user)
+        public void Update(Owner user)
         {
             Users[user.Name] = user;
         }

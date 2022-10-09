@@ -1,9 +1,9 @@
-﻿using LovenseData;
+﻿using Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
-namespace LovenseService.DTO
+namespace Data.DTO
 {
     [JsonObject]
     public class CommandDTO
@@ -44,6 +44,6 @@ namespace LovenseService.DTO
         [JsonProperty("rule")]
         public string Structure { get; set; }
         [JsonProperty("strength")]
-        public string Pattern { get; set; }
+        public string Sequence { get; set; }
     }
 }

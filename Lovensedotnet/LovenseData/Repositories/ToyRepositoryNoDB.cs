@@ -1,9 +1,9 @@
-﻿using LovenseData.Interfaces;
-using LovenseData.Models;
+﻿using Data.Interfaces;
+using Data.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LovenseData.Repositories
+namespace Data.Repositories
 {
     public class ToyRepositoryNoDB : IToyRepository
     {
